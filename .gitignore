@@ -1,0 +1,9 @@
+*.env
+*__pycache__
+# *.json
+*.ipynb
+notebooks
+testing_images
+# assets
+*.log
+conversations
