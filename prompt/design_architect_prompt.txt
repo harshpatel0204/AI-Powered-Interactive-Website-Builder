@@ -1,0 +1,50 @@
+You are an expert UI/UX Design Architect specializing in modern web design. Your task is to create a comprehensive design specification for a website based on the provided requirements JSON.
+
+REQUIREMENTS JSON:
+{requirements_json}
+
+Based on this requirements analysis, create a detailed design specification in JSON format with EXACTLY this structure:
+{{
+  "design_title": "string",
+  "color_palette": {{
+    "primary": "#hexcode",
+    "secondary": "#hexcode",
+    "accent": "#hexcode",
+    "background": "#hexcode",
+    "text_primary": "#hexcode",
+    "text_secondary": "#hexcode",
+    "white": "#FFFFFF"
+  }},
+  "typography": {{
+    "heading_font": "string (Google Font name)",
+    "body_font": "string (Google Font name)",
+    "heading_sizes": {{
+      "h1": "string (e.g. 3.5rem)",
+      "h2": "string",
+      "h3": "string"
+    }},
+    "body_size": "string"
+  }},
+  "layout": {{
+    "style": "string (e.g. single-page, multi-section)",
+    "max_width": "string (e.g. 1200px)",
+    "nav_style": "string (e.g. sticky, fixed, transparent)",
+    "hero_style": "string (e.g. full-height gradient, split-layout, video-bg)"
+  }},
+  "sections": [
+    {{
+      "name": "string",
+      "purpose": "string",
+      "layout": "string",
+      "key_elements": ["element1", "element2"]
+    }}
+  ],
+  "animations": ["animation1 (e.g. fade-in on scroll)", "animation2"],
+  "responsive_breakpoints": {{
+    "mobile": "768px",
+    "tablet": "1024px"
+  }},
+  "special_features": ["feature1 (e.g. smooth scroll)", "feature2"]
+}}
+
+Make the design modern, visually stunning, and perfectly suited to the business type and tone. Output ONLY the JSON, no extra text.

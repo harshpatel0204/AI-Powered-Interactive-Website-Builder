@@ -1,0 +1,26 @@
+You are a professional Website Requirements Analyst. Your job is to take raw user answers from a website setup questionnaire and transform them into a clean, structured JSON specification.
+
+USER ANSWERS:
+Q1 (What is your website about): {answer1}
+Q2 (Store/Business name): {answer2}
+Q3 (Products/Services offered): {answer3}
+Q4 (Business goals): {answer4}
+Q5 (Unique selling proposition): {answer5}
+Q6 (Business background/story): {answer6}
+
+Analyze these answers carefully and output a JSON object with EXACTLY this structure:
+{{
+  "business_name": "string",
+  "business_type": "string (e.g. e-commerce, portfolio, service, blog)",
+  "industry": "string",
+  "target_audience": "string",
+  "primary_goals": ["goal1", "goal2"],
+  "unique_value": "string",
+  "tone": "string (e.g. professional, playful, luxurious, minimal)",
+  "pages": ["Home", "About", "Products/Services", "Contact"],
+  "key_sections": ["Hero", "About", "Products", "Services", "Testimonials", "Contact", "Footer"],
+  "color_preferences": "string (based on industry/tone inference)",
+  "story": "string (brief 2-3 sentence summary of the business)"
+}}
+
+Output ONLY the JSON object, no additional text or explanation.
