@@ -23,4 +23,15 @@ Common update types and how to handle them:
 - Font changes: Update @import and font-family CSS properties
 - Animation changes: Modify or add CSS keyframes and transitions
 
+**IMAGE RULES (MUST FOLLOW)**:
+- When adding NEW sections or content that needs images, use Lorem Picsum:
+  `https://picsum.photos/seed/UNIQUE_SEED/WIDTH/HEIGHT`
+  Example: `https://picsum.photos/seed/newcard1/600/400`
+- NEVER reuse an image URL that already exists in the HTML — always use a NEW unique seed value (check existing seed values and use a different one)
+- When modifying existing images, keep URLs functional and relevant
+- All <img> tags must have descriptive alt text and `object-fit: cover`
+- Add `loading="lazy"` on images that are below the fold
+- If the user asks to change or add images, use Lorem Picsum with unique seeds
+- **DO NOT USE** `source.unsplash.com` — it has been SHUT DOWN and returns 503 errors
+
 Output ONLY the complete, updated HTML code starting with <!DOCTYPE html> and ending with </html>. No explanations or markdown.

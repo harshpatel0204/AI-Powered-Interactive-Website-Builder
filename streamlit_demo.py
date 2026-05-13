@@ -14,6 +14,7 @@ import nest_asyncio
 nest_asyncio.apply()
 
 from website_agents.pipeline import run_agent_pipeline, run_update_pipeline
+from website_agents.sample_data import MOCK_ANSWERS
 
 # ─── Logging Config ───────────────────────────────────────────────────────────
 try:
@@ -161,6 +162,7 @@ _defaults = {
     "design_json": None,
     "requirements_json": None,
     "pipeline_running": False,
+    "show_test_data": False,
 }
 for k, v in _defaults.items():
     if k not in st.session_state:
@@ -249,6 +251,61 @@ def run_async(coro):
         raise
 
 
+# ─── Main Functions ───────────────────────────────────────────────────────────
+
+def load_mock_answers():
+    """Populate the setup chat with the same answers used by tests/test_agents.py."""
+    st.session_state.answers = MOCK_ANSWERS.copy()
+    st.session_state.current_question = len(questions)
+    st.session_state.completed = True
+    st.session_state.chat_history = []
+    for question, answer in zip(questions, MOCK_ANSWERS):
+        st.session_state.chat_history.append({"role": "assistant", "content": question})
+        st.session_state.chat_history.append({"role": "user", "content": answer})
+    st.session_state.chat_history.append({
+        "role": "assistant",
+        "content": "Test answers loaded. Generating the website now...",
+    })
+
+
+def generate_website_from_answers(answers, source_label="user answers"):
+    """Run the main generation pipeline and store outputs in session state."""
+    reset_agent_statuses()
+    st.session_state.pipeline_running = True
+
+    try:
+        logger.info("Starting main agent pipeline with %s.", source_label)
+        result = run_async(
+            run_agent_pipeline(
+                answers=answers,
+                status_callback=status_callback,
+            )
+        )
+
+        st.session_state.generated_html = result["html"]
+        st.session_state.requirements_json = result.get("requirements_json", {})
+        st.session_state.design_json = result.get("design_json", {})
+        st.session_state.qa_score = result.get("qa_score")
+        st.session_state.qa_issues = result.get("qa_issues", [])
+        st.session_state.qa_fixes = result.get("qa_fixes", [])
+
+        if st.session_state.generated_html:
+            st.session_state.website_generated = True
+            return True
+
+        st.error("Agents did not produce valid HTML. Please try again.")
+        logger.warning("Agent pipeline completed but returned no HTML.")
+        return False
+
+    except Exception as e:
+        logger.exception("Critical error in main agent pipeline: %s", str(e))
+        st.error(f"Pipeline error: {str(e)}")
+        return False
+
+    finally:
+        st.session_state.pipeline_running = False
+
+
 # ─── App Layout ───────────────────────────────────────────────────────────────
 st.title("🏗️ AI-Powered Website Builder")
 st.markdown("Powered by **multiple specialized AI agents** — each one experts in their domain.")
@@ -273,6 +330,26 @@ with st.sidebar:
     if st.button("🔄 Start Over", use_container_width=True):
         reset_chat()
         st.rerun()
+
+    # ── Testing Section ───────────────────────────────────────────────────
+    st.divider()
+    st.subheader("🧪 Testing & Demo")
+    st.info("Quickly test the pipeline with pre-filled answers.")
+    
+    if st.button("🚀 Use Test Answers", use_container_width=True, type="secondary"):
+        st.session_state.show_test_data = True
+        load_mock_answers()
+        with st.spinner("Generating from test answers..."):
+            if generate_website_from_answers(MOCK_ANSWERS, "test answers"):
+                st.rerun()
+
+    if st.session_state.show_test_data:
+        with st.expander("📝 View Test Q&A", expanded=True):
+            for i, (q, a) in enumerate(zip(questions, MOCK_ANSWERS)):
+                st.markdown(f"**Q{i+1}:** {q}")
+                st.markdown(f"*{a}*")
+                if i < len(questions) - 1:
+                    st.divider()
 
 # ── Main Area ─────────────────────────────────────────────────────────────────
 if not st.session_state.website_generated:
@@ -319,38 +396,9 @@ if not st.session_state.website_generated:
             generate_btn = st.button("🚀 Generate Website with AI Agents", type="primary", use_container_width=True)
 
         if generate_btn:
-            reset_agent_statuses()
-            st.session_state.pipeline_running = True
-
             with st.spinner("AI agents are collaborating to build your website..."):
-                try:
-                    logger.info("Starting main agent pipeline with user answers.")
-                    result = run_async(
-                        run_agent_pipeline(
-                            answers=st.session_state.answers,
-                            status_callback=status_callback,
-                        )
-                    )
-
-                    st.session_state.generated_html = result["html"]
-                    st.session_state.requirements_json = result.get("requirements_json", {})
-                    st.session_state.design_json = result.get("design_json", {})
-                    st.session_state.qa_score = result.get("qa_score")
-                    st.session_state.qa_issues = result.get("qa_issues", [])
-                    st.session_state.qa_fixes = result.get("qa_fixes", [])
-
-                    if st.session_state.generated_html:
-                        st.session_state.website_generated = True
-                        st.session_state.pipeline_running = False
-                        st.rerun()
-                    else:
-                        st.error("⚠️ Agents did not produce valid HTML. Please try again.")
-                        logger.warning("Agent pipeline completed but returned no HTML.")
-
-                except Exception as e:
-                    logger.exception("Critical error in main agent pipeline: %s", str(e))
-                    st.error(f"❌ Pipeline error: {str(e)}")
-                    st.session_state.pipeline_running = False
+                if generate_website_from_answers(st.session_state.answers, "user answers"):
+                    st.rerun()
 
 else:
     # ── Website Generated View ─────────────────────────────────────────────────

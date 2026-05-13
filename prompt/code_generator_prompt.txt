@@ -50,4 +50,46 @@ Generate a COMPLETE, production-ready HTML file that:
    - Use placeholder-style professional copy (not "Lorem ipsum")
    - Add appropriate emoji or icons where they enhance the UI
 
+8. **IMAGES — CRITICAL RULES (MUST FOLLOW ALL)**:
+   You MUST include real, high-quality images throughout the website using Lorem Picsum. Follow ALL of these rules strictly:
+
+   a. **Use Lorem Picsum URLs**: Use this format for ALL images:
+      `https://picsum.photos/seed/UNIQUE_SEED/WIDTH/HEIGHT`
+      where UNIQUE_SEED is a descriptive word or number that makes each image unique.
+      Examples:
+      - `https://picsum.photos/seed/hero1/1920/1080`
+      - `https://picsum.photos/seed/product1/600/400`
+      - `https://picsum.photos/seed/team/800/600`
+      - `https://picsum.photos/seed/avatar1/200/200`
+
+   b. **UNIQUE Images — No Repeats**: Every single image on the website MUST have a DIFFERENT seed value. No two `<img>` tags or CSS `background-image` should use the same URL. Use descriptive seed names or incrementing numbers to keep them unique.
+
+   c. **Where to Place Images**:
+      - **Hero Section**: Use a large background image (1920x1080) via CSS `background-image` with a dark overlay for text readability
+      - **Products/Services Cards**: Each card MUST have its own unique image (600x400) showing that specific product/service
+      - **About Section**: Include a relevant image (800x600)
+      - **Features/USP Section**: Use small icons OR relevant images (400x300) per feature
+      - **Testimonials Section**: Use portrait-style images (200x200) for reviewer avatars if applicable
+      - **Gallery Section** (if applicable): Use 4-6 unique images showcasing the business
+
+   d. **Image Styling**:
+      - All `<img>` tags MUST have descriptive `alt` text relevant to the business
+      - Use `object-fit: cover` on all images for consistent sizing
+      - Add `loading="lazy"` on images below the fold
+      - Use `border-radius` for card images
+      - Ensure images are responsive with `max-width: 100%` and `height: auto`
+
+   e. **Background Images**:
+      - For hero/banner backgrounds, ALWAYS add a semi-transparent dark overlay so text remains readable
+      - Use `background-size: cover`, `background-position: center`, and `background-attachment: fixed` for parallax effect
+
+   f. **Total Image Count**: Include at MINIMUM 6 unique images across the entire website. More is better — aim for 8-12 images for a rich visual experience.
+
+   g. **DO NOT USE these deprecated/broken services**:
+      - ❌ `source.unsplash.com` (SHUT DOWN — returns 503 errors)
+      - ❌ `via.placeholder.com`
+      - ❌ `placehold.it`
+      - ❌ `placekitten.com`
+      - ❌ Any local file paths like `images/photo.jpg`
+
 Output ONLY the raw HTML code starting with <!DOCTYPE html> and ending with </html>. No explanations, no markdown code fences.

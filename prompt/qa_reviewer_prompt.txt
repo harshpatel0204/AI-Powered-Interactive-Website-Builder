@@ -29,6 +29,24 @@ Perform these checks and fix any issues you find:
 5. **Performance**:
    - Are there any obvious performance issues?
 
+6. **IMAGES — CRITICAL CHECKS**:
+   - **Working URLs**: Verify ALL image URLs use a working image service. The ONLY approved service is Lorem Picsum:
+     `https://picsum.photos/seed/UNIQUE_SEED/WIDTH/HEIGHT`
+     Fix any broken, placeholder, or non-functional image URLs by replacing them with proper Lorem Picsum URLs with unique seeds.
+   - **BROKEN SERVICES TO REPLACE**: If you find ANY of these URLs, they MUST be replaced with Lorem Picsum:
+     - `source.unsplash.com` (SHUT DOWN — returns 503 errors)
+     - `via.placeholder.com`
+     - `placehold.it`
+     - `placekitten.com`
+     - `dummyimage.com`
+     - `lorempixel.com`
+     - Any local file paths like `images/photo.jpg`
+   - **No Duplicate Images**: Check that EVERY image URL in the HTML is UNIQUE. No two <img> tags or CSS background-image should share the same URL. If duplicates are found, change the seed value to make each URL unique.
+   - **Alt Text**: Every <img> MUST have a descriptive, meaningful alt attribute (not generic like "image" or "photo").
+   - **Image Styling**: Ensure all images have `object-fit: cover` and responsive sizing (`max-width: 100%`).
+   - **Lazy Loading**: Non-hero images should have `loading="lazy"` attribute.
+   - **Minimum Count**: The website should have at LEAST 6 unique images. If fewer are found, add more relevant images to appropriate sections.
+
 OUTPUT FORMAT — Return a JSON object ONLY:
 {{
   "passed": true or false,

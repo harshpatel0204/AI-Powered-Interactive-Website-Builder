@@ -39,6 +39,24 @@ Based on this requirements analysis, create a detailed design specification in J
       "key_elements": ["element1", "element2"]
     }}
   ],
+  "image_strategy": {{
+    "hero_image": {{
+      "description": "string describing ideal hero background image",
+      "keywords": ["keyword1", "keyword2"],
+      "dimensions": "1920x1080"
+    }},
+    "section_images": [
+      {{
+        "section": "string (section name)",
+        "description": "string describing what image to show",
+        "keywords": ["keyword1", "keyword2"],
+        "dimensions": "string (e.g. 600x400)",
+        "count": 1
+      }}
+    ],
+    "total_unique_images": "integer (minimum 8, aim for 10-12)",
+    "style_notes": "string (e.g. warm tones, professional, lifestyle photography)"
+  }},
   "animations": ["animation1 (e.g. fade-in on scroll)", "animation2"],
   "responsive_breakpoints": {{
     "mobile": "768px",
@@ -46,5 +64,12 @@ Based on this requirements analysis, create a detailed design specification in J
   }},
   "special_features": ["feature1 (e.g. smooth scroll)", "feature2"]
 }}
+
+IMPORTANT IMAGE GUIDANCE:
+- The image_strategy section is CRITICAL. Choose keywords that are highly specific to the business type and industry.
+- Each section_images entry should have DIFFERENT keywords to ensure visual variety.
+- The hero_image keywords should capture the overall brand feeling.
+- Product/service images should use keywords specific to each individual product or service mentioned in the requirements.
+- Aim for at least 8-12 total unique images across the website for a rich, professional look.
 
 Make the design modern, visually stunning, and perfectly suited to the business type and tone. Output ONLY the JSON, no extra text.

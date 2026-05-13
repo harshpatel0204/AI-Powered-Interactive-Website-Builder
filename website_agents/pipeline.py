@@ -25,6 +25,7 @@ from website_agents.design_architect import create_design_architect_agent
 from website_agents.code_generator import create_code_generator_agent
 from website_agents.qa_reviewer import create_qa_reviewer_agent
 from website_agents.update_handler import create_update_handler_agent
+from website_agents.image_processor import fix_images_in_html
 
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -144,6 +145,8 @@ async def run_agent_pipeline(
 
     coder_result = await Runner.run(coder_agent, coder_input, run_config=run_cfg)
     raw_html = _extract_html(coder_result.final_output)
+    # Post-process images: fix placeholders, ensure unique URLs
+    raw_html = fix_images_in_html(raw_html, requirements_json=requirements)
     results["raw_html"] = raw_html
     _notify("Code Generator", "done", f"Generated {len(raw_html):,} characters of HTML/CSS/JS")
 
@@ -168,6 +171,9 @@ async def run_agent_pipeline(
         qa_score = 75
         qa_issues = []
         qa_fixes = []
+
+    # Final image post-processing on the QA-reviewed HTML
+    final_html = fix_images_in_html(final_html, requirements_json=requirements)
 
     results["html"] = final_html
     results["qa_score"] = qa_score
@@ -223,6 +229,9 @@ async def run_update_pipeline(
 
     if not updated_html:
         updated_html = current_html  # fallback
+    else:
+        # Post-process images in the updated HTML
+        updated_html = fix_images_in_html(updated_html)
 
     _notify("Update Handler", "done", "Changes applied successfully ✅")
 

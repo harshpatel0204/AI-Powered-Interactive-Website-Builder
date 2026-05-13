@@ -16,16 +16,7 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from website_agents.pipeline import run_agent_pipeline, run_update_pipeline
-
-
-MOCK_ANSWERS = [
-    "An online store selling handmade sustainable candles",
-    "GlowCraft Studio",
-    "Soy wax candles, essential oil diffusers, and beeswax wraps",
-    "Build brand awareness, grow email subscriber list, and drive online sales",
-    "100% natural, eco-friendly materials with unique hand-poured designs",
-    "Founded in 2022 by two friends passionate about sustainable living and aromatherapy",
-]
+from website_agents.sample_data import MOCK_ANSWERS
 
 
 def print_status(agent_name: str, status: str, detail: str = ""):
